@@ -1,0 +1,4 @@
+administer background:
+  title: 'Configure the background module'
+  description: 'Configure the background module'
+  restrict access: TRUE

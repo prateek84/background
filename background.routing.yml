@@ -1,0 +1,7 @@
+background.settings:
+  path: '/admin/config/system/background'
+  defaults:
+    _form: '\Drupal\background\Form\BackgroundSettingsForm'
+    _title: 'Background'
+  requirements:
+    _permission: 'administer background'

@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Drupal Module: Set background of the site.
+ */
+
+use \Drupal\Core\Routing\RouteMatchInterface;
+use \Drupal\Core\Render\Markup;
+
+/**
+ * Implements hook_help().
+ */
+function background_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.background':
+      return t('This is a module for for the Background theme extension. If you are enable to see the background image/colour after configuring the background image/colour then please disable the applied other background image/colour feature.');
+  }
+}
+
+
+/**
+* Implements hook_preprocess_html().
+*/
+function background_preprocess_html(&$vars) {
+	$markup = new Markup();
+  $vars['attributes']['class'][] = 'user_defined_background';
+  $vars['#attached']['library'][] = 'background/background-css';
+  $vars['page_bottom']['html_top'][] = array(
+  	'header' => array(
+	  	'#markup' => $markup->create("<style>" . background_get_script() . "</style>"), 
+  	)
+  );
+}
+
+
+/**
+ * Return script.
+ */
+function background_get_script() {
+	$config = \Drupal::config('background.settings');
+  $data = $config->get('background_data');
+  $output = '';
+  if ( $data != '') {
+    // @todo
+    /*
+    if( !empty($data['path'] )) {
+      variable_set('link', $data['path']); 
+    } */
+    //$theme_rendered = $GLOBALS['theme'];
+    //$theme_default = variable_get('theme_default', NULL);
+    $theme_rendered = \Drupal::theme()->getActiveTheme()->getName();
+    $theme_default = \Drupal::config('system.theme')->get('default');
+    if ($data['check'] == 1 || $theme_rendered == $theme_default) {
+      $flag = 1;
+    }
+    else {
+      $flag = 0;
+    } 
+    if ($flag == 1) {
+      if ($data['path'] != '') {
+        $img = file_create_url($data['path']);
+        $output = 'html {height: auto !important; } body {background-image:url(' . $img . ') !important; background-position:' . $data['position'] . '!important; background-repeat: ' . $data['repeat'] . '!important; background-attachment:' . $data['attachment'] . '!important; background-size: 100% !important}';
+      }
+      else {
+        $output = 'body {background-color:' . $data['color'] . ' !important;} html {height: auto !important;}';
+      }
+    }
+  }
+  return $output;
+}

@@ -1,0 +1,38 @@
+*{
+	margin:0 ;
+	padding:0 ;
+	}
+	
+	
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+/*******custom css for this module*******/
+
+
+#page-wrapper, 
+#page,
+#header,
+#main-wrapper,
+#footer-wrapper,
+#branding,
+#footer,
+#wrapper,
+#squeeze,
+.right-corner,
+.left-corner{
+        background: inherit !important;
+	  }
+	
+#content,
+#main,
+#center{
+	background: #ffffff none repeat scroll 0 0;
+        color: #000000 !important;
+        font-weight: bold !important;
+        opacity: 0.85;
+	}
